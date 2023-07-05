@@ -7,14 +7,15 @@ import "fmt"
 // NODE
 // ////////////////////////////
 type Node struct {
+	Key  string
 	Val  string
 	Prev *Node
 	Next *Node
 }
 
 // Function to create a node
-func CreateNode(val string, prev, next *Node) *Node {
-	return &Node{val, prev, next}
+func CreateNode(key, val string, prev, next *Node) *Node {
+	return &Node{key, val, prev, next}
 }
 
 // Method to display a node
@@ -44,8 +45,8 @@ func CreateDoublyLinkedListEmpty() *DoublyLinkedList {
 	return &DoublyLinkedList{nil}
 }
 
-func CreateDoublyLinkedListWithHead(headVal string) *DoublyLinkedList {
-	head := CreateNode(headVal, nil, nil)
+func CreateDoublyLinkedListWithHead(headKey, headVal string) *DoublyLinkedList {
+	head := CreateNode(headKey, headVal, nil, nil)
 	return &DoublyLinkedList{head}
 }
 

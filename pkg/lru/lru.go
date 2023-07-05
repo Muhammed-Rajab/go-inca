@@ -29,22 +29,27 @@ func (cache *LRUCache) Set(key, val string) {
 
 	// Case 1 -> Cache is not full
 	if !cache.IsFull() {
-		node := dll.CreateNode(val, nil, nil)
+		node := dll.CreateNode(key, val, nil, nil)
 		cache.data[key] = node
 		cache.keys.Prepend(node)
 		return
 	}
 
 	// Case 2 -> Cache is full
-	node := dll.CreateNode(val, nil, nil)
+	node := dll.CreateNode(key, val, nil, nil)
+	popped := cache.keys.Pop()
+	delete(cache.data, popped.Key)
 	cache.data[key] = node
-	cache.keys.Pop()
 	cache.keys.Prepend(node)
 }
 
 // Method to Get value from cache
 func (cache *LRUCache) Get(key string) string {
-	return cache.data[key].Val
+	if cache.data[key] != nil {
+		return cache.data[key].Val
+	} else {
+		return ""
+	}
 }
 
 // Method to check if the capacity is reached
