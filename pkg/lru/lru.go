@@ -1,4 +1,4 @@
-package main
+package lru
 
 import (
 	dll "github.com/Muhammed-Rajab/go-inca/pkg/dll"
@@ -104,25 +104,10 @@ func (cache *LRUCache) Delete(key string) bool {
 		delete(cache.data, key)
 		return true
 	}
-
 }
 
 // Method to check if the capacity is reached
 // Optimized way: keep track of capacity using another variable in the struct
 func (cache *LRUCache) IsFull() bool {
 	return cache.keys.Length() == cache.capacity
-}
-
-func main() {
-	cache := CreateLRUCache(5)
-	cache.Set("a", "1")
-	cache.Set("b", "2")
-	cache.Set("c", "3")
-	cache.Set("d", "4")
-	cache.Set("e", "5")
-
-	cache.Set("f", "6")
-	cache.Get("d")
-	cache.Delete("e")
-	cache.keys.Display()
 }

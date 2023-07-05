@@ -21,7 +21,7 @@
 
 | Feature                                                        | Done(✅/❌) |
 | -------------------------------------------------------------- | ----------- |
-| Implement LRU                                                  | ❌          |
+| Implement LRU                                                  | ✅          |
 | Implement LFU                                                  | ❌          |
 | Implement Set, Get and Delete for LRU/LFU (Hint: use generics) | ❌          |
 | Implement TTL                                                  | ❌          |
@@ -34,4 +34,10 @@
 Tue 04 Jul 2023 12:47:42 PM IST
 I have no idea about what I'm getting into, but yeah.
 I'mma try my best to learn as much as I can, no matter what :)
+```
+
+```
+Thu 06 Jul 2023 02:35:09 AM IST
+Just implemented a doubly linkedlist and lru cache with basic functionality. Still hasn't found out the way to implement TTL.
+This shit is fun af.
 ```
