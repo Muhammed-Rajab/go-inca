@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	dll "github.com/Muhammed-Rajab/go-inca/pkg/dll"
 )
 
@@ -44,11 +42,35 @@ func (cache *LRUCache) Set(key, val string) {
 }
 
 // Method to Get value from cache
-func (cache *LRUCache) Get(key string) string {
-	if cache.data[key] != nil {
-		return cache.data[key].Val
+func (cache *LRUCache) Get(key string) (string, bool) {
+
+	// O/P: (val, isPresent)
+
+	if node := cache.data[key]; node == nil {
+		// Case 1 -> Key is not present
+		return "", false
 	} else {
-		return ""
+		// Case 2 -> Key is present
+
+		// Removed node from the equation
+		// if node is head
+		if node == cache.keys.Head() {
+			return node.Val, true
+		}
+
+		// if node is tail
+		if node.Next == nil {
+			node.Prev.Next = nil
+			cache.keys.Prepend(node)
+			return node.Val, true
+		}
+
+		node.Prev.Next = node.Next
+		node.Next.Prev = node.Prev
+
+		// prepend node
+		cache.keys.Prepend(node)
+		return node.Val, true
 	}
 }
 
@@ -59,10 +81,13 @@ func (cache *LRUCache) IsFull() bool {
 }
 
 func main() {
-	cache := CreateLRUCache(1)
-	cache.Set("name", "Rajab")
-	cache.Set("age", "17")
+	cache := CreateLRUCache(5)
+	cache.Set("a", "1")
+	cache.Set("b", "2")
+	cache.Set("c", "3")
+	cache.Set("d", "4")
+	cache.Set("e", "5")
 
-	fmt.Println(cache.Get("age"))
-	fmt.Println(cache.Get("name"))
+	cache.Set("f", "6")
+	cache.keys.Display()
 }
