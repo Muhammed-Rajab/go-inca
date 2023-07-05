@@ -40,7 +40,11 @@ type DoublyLinkedList struct {
 }
 
 // Function to create a DLL
-func CreateDoublyLinkedList(headVal string) *DoublyLinkedList {
+func CreateDoublyLinkedListEmpty() *DoublyLinkedList {
+	return &DoublyLinkedList{nil}
+}
+
+func CreateDoublyLinkedListWithHead(headVal string) *DoublyLinkedList {
 	head := CreateNode(headVal, nil, nil)
 	return &DoublyLinkedList{head}
 }
@@ -62,7 +66,7 @@ func (dll *DoublyLinkedList) Display() {
 // Better way: keep track of the length without calculating it every single time
 func (dll *DoublyLinkedList) Length() uint32 {
 	len := 0
-	temp := dll.head
+	temp := dll.Head()
 	for temp != nil {
 		len++
 		temp = temp.next
@@ -77,23 +81,44 @@ func (dll *DoublyLinkedList) Head() *Node {
 
 // Method to get Tail Node
 func (dll *DoublyLinkedList) Tail() *Node {
-	temp := dll.head
+	temp := dll.Head()
 	for temp.next != nil {
 		temp = temp.next
 	}
 	return temp
 }
 
+// Method to set Head Node
+func (dll *DoublyLinkedList) setHead(node *Node) *Node {
+	dll.head = node
+	node.next = nil
+	node.prev = nil
+	return node
+}
+
 // Method to append a node to the end of the dll
 func (dll *DoublyLinkedList) Append(node *Node) *Node {
+	// Case: 1 -> Head is nil
+	if dll.Head() == nil {
+		return dll.setHead(node)
+	}
+
+	// Case: 2 -> Head is not nil
 	tail := dll.Tail()
 	tail.next = node
 	node.prev = tail
+	node.next = nil
 	return node
 }
 
 // Method to prepend a node to the beginning of the dll
 func (dll *DoublyLinkedList) Prepend(node *Node) *Node {
+	// Case: 1 -> Head is nil
+	if dll.Head() == nil {
+		return dll.setHead(node)
+	}
+
+	// Case: 2 -> Head is not nil
 	node.next = dll.head
 	dll.head.prev = node
 	dll.head = node
@@ -102,7 +127,11 @@ func (dll *DoublyLinkedList) Prepend(node *Node) *Node {
 }
 
 // Method to remove from the last element
-func (dll *DoublyLinkedList) Pop() {
+func (dll *DoublyLinkedList) Pop() *Node {
+	if dll.Head() == nil {
+		return nil
+	}
+
 	tail := dll.Tail()
 	if tail.prev != nil {
 		tail.prev.next = nil
@@ -110,21 +139,22 @@ func (dll *DoublyLinkedList) Pop() {
 		dll.head = nil
 	}
 	tail.next = nil
+	return tail
 }
 
 func main() {
-	dll := CreateDoublyLinkedList("1")
+	dll := CreateDoublyLinkedListEmpty()
+	dll.Prepend(CreateNode("nigga", nil, nil))
+	dll.Prepend(CreateNode("bro", nil, nil))
 	dll.Append(CreateNode("2", nil, nil))
 	dll.Append(CreateNode("4", nil, nil))
 	dll.Append(CreateNode("3", nil, nil))
-	dll.Prepend(CreateNode("nigga", nil, nil))
-	dll.Prepend(CreateNode("bro", nil, nil))
 	dll.Pop()
 	dll.Pop()
 	dll.Pop()
 	dll.Pop()
 	dll.Pop()
 	dll.Pop()
-	// dll.Append(CreateNode("sdf", nil, nil))
+	dll.Append(CreateNode("sdf", nil, nil))
 	dll.Display()
 }
