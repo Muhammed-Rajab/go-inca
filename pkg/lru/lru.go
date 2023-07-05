@@ -74,6 +74,39 @@ func (cache *LRUCache) Get(key string) (string, bool) {
 	}
 }
 
+// Method to Delete value from cache
+func (cache *LRUCache) Delete(key string) bool {
+	if node := cache.data[key]; node == nil {
+		// Case 1 -> key is not present
+		return cache.data[key] == nil
+	} else {
+		// Case 2 -> key is present
+
+		// if head
+		if node == cache.keys.Head() {
+			// Remove from keys
+			cache.keys.HeadNode = cache.keys.HeadNode.Next
+			// Remove from data
+			delete(cache.data, key)
+			return true
+		}
+		// if tail
+		if node.Next == nil {
+			// Remove from keys
+			node.Prev.Next = nil
+			// Remove from data
+			delete(cache.data, key)
+			return true
+		}
+		// else
+		node.Prev.Next = node.Next
+		node.Next.Prev = node.Prev
+		delete(cache.data, key)
+		return true
+	}
+
+}
+
 // Method to check if the capacity is reached
 // Optimized way: keep track of capacity using another variable in the struct
 func (cache *LRUCache) IsFull() bool {
@@ -89,5 +122,7 @@ func main() {
 	cache.Set("e", "5")
 
 	cache.Set("f", "6")
+	cache.Get("d")
+	cache.Delete("e")
 	cache.keys.Display()
 }

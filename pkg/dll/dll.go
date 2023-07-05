@@ -37,7 +37,7 @@ func (node *Node) Delete() {
 // DOUBLY LINKED LIST
 // ////////////////////////////
 type DoublyLinkedList struct {
-	head *Node
+	HeadNode *Node
 }
 
 // Function to create a DLL
@@ -76,7 +76,7 @@ func (dll *DoublyLinkedList) Length() uint32 {
 
 // Method to get Head Node
 func (dll *DoublyLinkedList) Head() *Node {
-	return dll.head
+	return dll.HeadNode
 }
 
 // Method to get Tail Node
@@ -90,7 +90,7 @@ func (dll *DoublyLinkedList) Tail() *Node {
 
 // Method to set Head Node
 func (dll *DoublyLinkedList) setHead(node *Node) *Node {
-	dll.head = node
+	dll.HeadNode = node
 	node.Next = nil
 	node.Prev = nil
 	return node
@@ -119,9 +119,9 @@ func (dll *DoublyLinkedList) Prepend(node *Node) *Node {
 	}
 
 	// Case: 2 -> Head is not nil
-	node.Next = dll.head
-	dll.head.Prev = node
-	dll.head = node
+	node.Next = dll.HeadNode
+	dll.HeadNode.Prev = node
+	dll.HeadNode = node
 	node.Prev = nil
 	return node
 }
@@ -136,7 +136,7 @@ func (dll *DoublyLinkedList) Pop() *Node {
 	if tail.Prev != nil {
 		tail.Prev.Next = nil
 	} else {
-		dll.head = nil
+		dll.HeadNode = nil
 	}
 	tail.Next = nil
 	return tail
