@@ -71,3 +71,9 @@ keeping track of the `TailNode` in LRUCache struct.
 Thu 06 Jul 2023 03:11:37 PM IST
 DIGGITY DONG! Just made that silly change and now my code is 3.53438442983 × 10^9 times faster, like fuck, that's nearly 3.5  × 10^9 times faster, wtf?!?
 ```
+
+```
+Thu 06 Jul 2023 03:35:40 PM IST
+LOL, I messed up. I think i fucked up the whole dll by doing
+some stupid shit. My brain is quite literally fried from coding for the past 10 hours. I need a break :)
+```
