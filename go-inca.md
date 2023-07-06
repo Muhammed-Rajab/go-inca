@@ -23,7 +23,7 @@
 | -------------------------------------------------------------- | ----------- |
 | Implement LRU                                                  | ✅          |
 | Implement LFU                                                  | ❌          |
-| Implement Set, Get and Delete for LRU/LFU (Hint: use generics) | ❌          |
+| Implement Set, Get and Delete for LRU/LFU (Hint: use generics) | ✅          |
 | Implement TTL                                                  | ❌          |
 | Optimize caching system                                        | ❌          |
 | Add support for more data structures                           | ❌          |
