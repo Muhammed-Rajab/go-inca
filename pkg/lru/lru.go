@@ -25,6 +25,37 @@ func CreateLRUCache(capacity uint32) *LRUCache {
 // Method to Set values to cache
 func (cache *LRUCache) Set(key, val string) {
 
+	// Case 0 -> Key is already present and is trying to reset the value
+	if cache.data[key] != nil {
+		// Retrieve node
+		node := cache.data[key]
+
+		// Reset values to new
+		node.Key = key
+		node.Val = val
+
+		// Move the node to the beginning of keys
+
+		// if node is head
+		if node == cache.keys.Head() {
+			return
+		}
+
+		// if node is tail
+		if node.Next == nil {
+			node.Prev.Next = nil
+			cache.keys.Prepend(node)
+			return
+		}
+
+		// else
+		node.Prev.Next = node.Next
+		node.Next.Prev = node.Prev
+
+		cache.keys.Prepend(node)
+		return
+	}
+
 	// Case 1 -> Cache is not full
 	if !cache.IsFull() {
 		node := dll.CreateNode(key, val, nil, nil)
