@@ -57,3 +57,12 @@ Thu 06 Jul 2023 02:37:05 PM IST
 Just found out that I'm doing a lot of allocation,
 which can worsen the performance. I think a better way to approach this issue is oncee you reach the capacity, then you should just reuse the allocated Node instead of just allocating new one.
 ```
+
+```
+Thu 06 Jul 2023 02:55:01 PM IST
+Caught the culprit which made my code slower.
+It's the fucking `Pop()` method. It uses 'Tail()' method which is an `O(n)` method,
+which made setting new values relatively slow. I'm such a dumb fuck.
+I didn't notice it there. Now the better way to implement it is by
+keeping track of the `TailNode` in LRUCache struct.
+```
