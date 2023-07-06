@@ -19,16 +19,17 @@
 
 ### Currently working on ⚙️
 
-| Feature                                                        | Done(✅/❌) |
-| -------------------------------------------------------------- | ----------- |
-| Implement LRU                                                  | ✅          |
-| Implement LFU                                                  | ❌          |
-| Implement Set, Get and Delete for LRU/LFU (Hint: use generics) | ✅          |
-| Implement TTL                                                  | ❌          |
-| Optimize caching system                                        | ❌          |
-| Add support for more data structures                           | ❌          |
-| Make a network interface to communicated via TCP(Text Based)   | ❌          |
-| Make it work flawless with multiple concurrent users           | ❌          |
+| Feature                                                      | Done(✅/❌) |
+| ------------------------------------------------------------ | ----------- |
+| Implement LRU                                                | ✅          |
+| Implement LFU                                                | ❌          |
+| Implement Set, Get and Delete for LRU                        | ✅          |
+| Implement Set, Get and Delete for LFU                        | ❌          |
+| Implement TTL                                                | ❌          |
+| Optimize caching system                                      | ❌          |
+| Add support for more data structures                         | ❌          |
+| Make a network interface to communicated via TCP(Text Based) | ❌          |
+| Make it work flawless with multiple concurrent users         | ❌          |
 
 ### Dev logs 🗒️
 
