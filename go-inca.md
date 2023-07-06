@@ -77,3 +77,8 @@ Thu 06 Jul 2023 03:35:40 PM IST
 LOL, I messed up. I think i fucked up the whole dll by doing
 some stupid shit. My brain is quite literally fried from coding for the past 10 hours. I need a break :) A quick guess tho. If my current code is working fine, then it's 1.96x faster than my previous working version(still, that's a lot of improvement even tho it's not in the magnitude of 9)
 ```
+
+```
+Thu 06 Jul 2023 04:30:00 PM IST
+Haven't stopped coding yet, and just found out the list provided by go ain't gonna be that useful for my purpose
+```
