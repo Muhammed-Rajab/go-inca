@@ -75,5 +75,5 @@ DIGGITY DONG! Just made that silly change and now my code is 3.53438442983 × 10
 ```
 Thu 06 Jul 2023 03:35:40 PM IST
 LOL, I messed up. I think i fucked up the whole dll by doing
-some stupid shit. My brain is quite literally fried from coding for the past 10 hours. I need a break :)
+some stupid shit. My brain is quite literally fried from coding for the past 10 hours. I need a break :) A quick guess tho. If my current code is working fine, then it's 1.96x faster than my previous working version(still, that's a lot of improvement even tho it's not in the magnitude of 9)
 ```

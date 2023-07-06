@@ -9,15 +9,14 @@ import (
 func main() {
 
 	cache := inca.CreateInca(&inca.IncaConfig{
-		Capacity:       10,
+		Capacity:       3,
 		EvictionPolicy: inca.TYPE_LRU,
 	})
 
 	cache.Memory.Set("name", "Rajab")
-	fmt.Println(cache.Memory.Priorities())
-	fmt.Println(cache.Memory.Get("name"))
+	cache.Memory.Set("age", "17")
+	cache.Memory.Set("job", "swe")
 
-	cache.Memory.Set("name", "Jamie")
-	fmt.Println(cache.Memory.Priorities())
 	fmt.Println(cache.Memory.Get("name"))
+	fmt.Println(cache.Memory.Priorities())
 }
