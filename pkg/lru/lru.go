@@ -111,3 +111,9 @@ func (cache *LRUCache) Delete(key string) bool {
 func (cache *LRUCache) IsFull() bool {
 	return cache.keys.Length() == cache.capacity
 }
+
+// Method to return the list format of key priorities
+func (cache *LRUCache) Priorities() []string {
+	// cache.keys.
+	return []string{}
+}

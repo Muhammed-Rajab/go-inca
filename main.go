@@ -1,7 +1,18 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/Muhammed-Rajab/go-inca/pkg/inca"
+)
 
 func main() {
-	fmt.Println("Welcome to go-inca!")
+
+	cache := inca.CreateInca(&inca.IncaConfig{
+		Capacity:       10,
+		EvictionPolicy: inca.TYPE_LRU,
+	})
+
+	cache.Memory.Set("name", "Rajab")
+	fmt.Println(cache.Memory.Get("name"))
 }
