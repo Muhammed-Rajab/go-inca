@@ -21,6 +21,7 @@ type Cache interface {
 	Set(key, val string)
 	Delete(key string) bool
 	IsFull() bool
+	Priorities() []string
 }
 
 type Inca struct {

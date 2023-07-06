@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/Muhammed-Rajab/go-inca/pkg/inca"
 )
 
@@ -12,7 +10,5 @@ func main() {
 		Capacity:       10,
 		EvictionPolicy: inca.TYPE_LRU,
 	})
-
-	cache.Memory.Set("name", "Rajab")
-	fmt.Println(cache.Memory.Get("name"))
+	cache.Memory.Get("hi")
 }

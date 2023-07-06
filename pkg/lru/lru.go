@@ -114,6 +114,13 @@ func (cache *LRUCache) IsFull() bool {
 
 // Method to return the list format of key priorities
 func (cache *LRUCache) Priorities() []string {
-	// cache.keys.
-	return []string{}
+	temp := cache.keys.HeadNode
+	pkeys := []string{}
+
+	for temp != nil {
+		pkeys = append(pkeys, temp.Key)
+		temp = temp.Next
+	}
+
+	return pkeys
 }
