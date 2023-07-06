@@ -65,11 +65,19 @@ func (cache *LRUCache) Set(key, val string) {
 	}
 
 	// Case 2 -> Cache is full
-	node := dll.CreateNode(key, val, nil, nil)
+	// node := dll.CreateNode(key, val, nil, nil)
+	// popped := cache.keys.Pop()
+	// delete(cache.data, popped.Key)
+	// cache.data[key] = node
+	// cache.keys.Prepend(node)
+
+	// Case 2, better implementation
 	popped := cache.keys.Pop()
+	popped.Key = key
+	popped.Val = val
 	delete(cache.data, popped.Key)
-	cache.data[key] = node
-	cache.keys.Prepend(node)
+	cache.data[key] = popped
+	cache.keys.Prepend(popped)
 }
 
 // Method to Get value from cache
