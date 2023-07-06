@@ -30,6 +30,8 @@
 | Add support for more data structures                         | ❌          |
 | Make a network interface to communicated via TCP(Text Based) | ❌          |
 | Make it work flawless with multiple concurrent users         | ❌          |
+| Refactor DLL                                                 | ❌          |
+| Refactor LRU                                                 | ❌          |
 
 ### Dev logs 🗒️
 
