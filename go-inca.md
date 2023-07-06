@@ -46,3 +46,8 @@ Thu 06 Jul 2023 02:35:09 AM IST
 Just implemented a doubly linkedlist and lru cache with basic functionality. Still hasn't found out the way to implement TTL.
 This shit is fun af.
 ```
+
+```
+Thu 06 Jul 2023 01:43:52 PM IST
+Everything thing is fast af, but I feel like I can improve it. Benchmarks are showing good results. I should do something to improve setting keys after capacity is over.
+```
