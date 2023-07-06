@@ -114,6 +114,7 @@ func (dll *DoublyLinkedList) Append(node *Node) *Node {
 	tail.Next = node
 	node.Prev = tail
 	node.Next = nil
+	dll.TailNode = node
 	return node
 }
 
@@ -141,8 +142,10 @@ func (dll *DoublyLinkedList) Pop() *Node {
 	tail := dll.Tail()
 	if tail.Prev != nil {
 		tail.Prev.Next = nil
+		dll.TailNode = tail.Prev
 	} else {
 		dll.HeadNode = nil
+		dll.TailNode = nil
 	}
 	tail.Next = nil
 	return tail
