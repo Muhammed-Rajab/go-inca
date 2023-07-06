@@ -51,3 +51,9 @@ This shit is fun af.
 Thu 06 Jul 2023 01:43:52 PM IST
 Everything thing is fast af, but I feel like I can improve it. Benchmarks are showing good results. I should do something to improve setting keys after capacity is over.
 ```
+
+```
+Thu 06 Jul 2023 02:37:05 PM IST
+Just found out that I'm doing a lot of allocation,
+which can worsen the performance. I think a better way to approach this issue is oncee you reach the capacity, then you should just reuse the allocated Node instead of just allocating new one.
+```
