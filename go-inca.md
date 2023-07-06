@@ -66,3 +66,8 @@ which made setting new values relatively slow. I'm such a dumb fuck.
 I didn't notice it there. Now the better way to implement it is by
 keeping track of the `TailNode` in LRUCache struct.
 ```
+
+```
+Thu 06 Jul 2023 03:11:37 PM IST
+DIGGITY DONG! Just made that silly change and now my code is 3.53438442983 × 10^9 times faster, like fuck, that's nearly 3.5  × 10^9 times faster, wtf?!?
+```

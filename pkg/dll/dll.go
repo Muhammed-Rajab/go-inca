@@ -38,16 +38,18 @@ func (node *Node) Delete() {
 // ////////////////////////////
 type DoublyLinkedList struct {
 	HeadNode *Node
+	TailNode *Node
 }
 
 // Function to create a DLL
 func CreateDoublyLinkedListEmpty() *DoublyLinkedList {
-	return &DoublyLinkedList{nil}
+	return &DoublyLinkedList{nil, nil}
 }
 
-func CreateDoublyLinkedListWithHead(headKey, headVal string) *DoublyLinkedList {
+func CreateDoublyLinkedListWithHead(headKey, headVal, tailKey, tailVal string) *DoublyLinkedList {
 	head := CreateNode(headKey, headVal, nil, nil)
-	return &DoublyLinkedList{head}
+	tail := CreateNode(tailKey, tailVal, nil, nil)
+	return &DoublyLinkedList{head, tail}
 }
 
 // Method to display the dll
@@ -81,16 +83,20 @@ func (dll *DoublyLinkedList) Head() *Node {
 
 // Method to get Tail Node
 func (dll *DoublyLinkedList) Tail() *Node {
-	temp := dll.Head()
-	for temp.Next != nil {
-		temp = temp.Next
-	}
-	return temp
+	// Implementation 1 -> O(n)
+	// temp := dll.Head()
+	// for temp.Next != nil {
+	// 	temp = temp.Next
+	// }
+	// return temp
+	// Implementation 2 -> O(1), supposedly :)
+	return dll.TailNode
 }
 
 // Method to set Head Node
 func (dll *DoublyLinkedList) setHead(node *Node) *Node {
 	dll.HeadNode = node
+	dll.TailNode = node
 	node.Next = nil
 	node.Prev = nil
 	return node
