@@ -27,6 +27,8 @@
 | Implement TTL                                                  | ❌          |
 | Optimize caching system                                        | ❌          |
 | Add support for more data structures                           | ❌          |
+| Make a network interface to communicated via TCP(Text Based)   | ❌          |
+| Make it work flawless with multiple concurrent users           | ❌          |
 
 ### Dev logs 🗒️
 
