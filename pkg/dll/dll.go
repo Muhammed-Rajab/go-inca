@@ -36,8 +36,16 @@ func (node *Node) Display() {
 	fmt.Printf("value: %s\n", node.Val)
 }
 
+// Method to reset node values
+func (node *Node) Reset(key, val string, ttl time.Duration) {
+	node.Key = key
+	node.Val = val
+	node.TTL = ttl
+	node.StoredAt = time.Now()
+}
+
 // Method to delete a node
-func (node *Node) Delete() {
+func (node *Node) Remove() {
 	if node.Prev != nil {
 		node.Prev.Next = node.Next
 	}

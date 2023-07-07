@@ -35,31 +35,20 @@ func (cache *LRUCache) Set(key, val string, ttl time.Duration) {
 		node := cache.data[key]
 
 		// Reset values to new
-		node.Key = key
-		node.Val = val
-		node.TTL = ttl
-		node.StoredAt = time.Now()
+		node.Reset(key, val, ttl)
 
 		// Move the node to the beginning of keys
-
-		// if node is head
 		if node == cache.keys.Head() {
+			// if node is head
 			return
-		}
-
-		// if node is tail
-		if node.Next == nil {
+		} else if node.Next == nil {
+			// if node is tail
 			node.Prev.Next = nil
 			cache.keys.Prepend(node)
-			return
+		} else {
+			node.Remove()
+			cache.keys.Prepend(node)
 		}
-
-		// else
-		node.Prev.Next = node.Next
-		node.Next.Prev = node.Prev
-
-		cache.keys.Prepend(node)
-		return
 	}
 
 	// Case 1 -> Cache is not full
@@ -72,10 +61,7 @@ func (cache *LRUCache) Set(key, val string, ttl time.Duration) {
 
 	// Case 2, better implementation
 	popped := cache.keys.Pop()
-	popped.Key = key
-	popped.Val = val
-	popped.TTL = ttl
-	popped.StoredAt = time.Now()
+	popped.Reset(key, val, ttl)
 	delete(cache.data, popped.Key)
 	cache.data[key] = popped
 	cache.keys.Prepend(popped)
