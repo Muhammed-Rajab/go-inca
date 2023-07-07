@@ -186,10 +186,13 @@ func (cache *LRUCache) ExpireTTL(key string, duration time.Duration) bool {
 	return false
 }
 
-func (cache *LRUCache) GetTTL(key string) time.Duration {
+func (cache *LRUCache) GetTTL(key string) (time.Duration, bool) {
 	node := cache.data[key]
 	if node != nil {
-		return time.Since(node.StoredAt.Add(node.TTL))
+		if node.TTL == -1 {
+			return -1, true
+		}
+		return time.Until(node.StoredAt.Add(node.TTL)), true
 	}
-	return -1
+	return -1, false
 }

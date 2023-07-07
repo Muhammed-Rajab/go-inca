@@ -31,7 +31,7 @@ type Cache interface {
 	Priorities() []string
 
 	// TTL
-	GetTTL(key string) time.Duration
+	GetTTL(key string) (time.Duration, bool)
 	ExpireTTL(key string, duration time.Duration) bool
 }
 
