@@ -66,14 +66,14 @@ func (cache *LRUCache) Set(key, val string, ttl time.Duration) {
 		cache.data[key] = node
 		cache.keys.Prepend(node)
 		return
+	} else {
+		// Case 2, better implementation
+		popped := cache.keys.Pop()
+		delete(cache.data, popped.Key)
+		popped.Reset(key, val, ttl)
+		cache.data[key] = popped
+		cache.keys.Prepend(popped)
 	}
-
-	// Case 2, better implementation
-	popped := cache.keys.Pop()
-	popped.Reset(key, val, ttl)
-	delete(cache.data, popped.Key)
-	cache.data[key] = popped
-	cache.keys.Prepend(popped)
 }
 
 // Method to Get value from cache
