@@ -32,6 +32,7 @@
 | Make it work flawless with multiple concurrent users         | ❌          |
 | Refactor DLL                                                 | ❌          |
 | Refactor LRU                                                 | ❌          |
+| Implement a CLI maybe? With parser?                          | ❌          |
 
 ### Dev logs 🗒️
 
