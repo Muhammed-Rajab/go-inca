@@ -1,6 +1,8 @@
 package lru
 
 import (
+	"time"
+
 	dll "github.com/Muhammed-Rajab/go-inca/pkg/dll"
 )
 
@@ -35,6 +37,8 @@ func (cache *LRUCache) Set(key, val string) {
 		// Reset values to new
 		node.Key = key
 		node.Val = val
+		node.TTL = -1
+		node.StoredAt = time.Now()
 
 		// Move the node to the beginning of keys
 
@@ -60,7 +64,7 @@ func (cache *LRUCache) Set(key, val string) {
 
 	// Case 1 -> Cache is not full
 	if !cache.IsFull() {
-		node := dll.CreateNode(key, val, nil, nil)
+		node := dll.CreateNode(key, val, -1, nil, nil)
 		cache.data[key] = node
 		cache.keys.Prepend(node)
 		return
@@ -77,6 +81,8 @@ func (cache *LRUCache) Set(key, val string) {
 	popped := cache.keys.Pop()
 	popped.Key = key
 	popped.Val = val
+	popped.TTL = -1
+	popped.StoredAt = time.Now()
 	delete(cache.data, popped.Key)
 	cache.data[key] = popped
 	cache.keys.Prepend(popped)
@@ -86,33 +92,45 @@ func (cache *LRUCache) Set(key, val string) {
 func (cache *LRUCache) Get(key string) (string, bool) {
 
 	// O/P: (val, isPresent)
+	node := cache.data[key]
 
-	if node := cache.data[key]; node == nil {
+	if node == nil {
 		// Case 1 -> Key is not present
+
 		return "", false
-	} else {
-		// Case 2 -> Key is present
+	}
 
-		// Removed node from the equation
-		// if node is head
-		if node == cache.keys.Head() {
-			return node.Val, true
+	// Checking if the node has expired
+	if node.TTL != -1 {
+		if time.Since(node.StoredAt) >= node.TTL {
+			// Remove the node
+			// Return nothing
+			return "", false
 		}
+	}
 
-		// if node is tail
-		if node.Next == nil {
-			node.Prev.Next = nil
-			cache.keys.Prepend(node)
-			return node.Val, true
-		}
+	// Case 2 -> Key is present
 
-		node.Prev.Next = node.Next
-		node.Next.Prev = node.Prev
+	// Removed node from the equation
+	// if node is head
+	if node == cache.keys.Head() {
+		return node.Val, true
+	}
 
-		// prepend node
+	// if node is tail
+	if node.Next == nil {
+		node.Prev.Next = nil
 		cache.keys.Prepend(node)
 		return node.Val, true
 	}
+
+	node.Prev.Next = node.Next
+	node.Next.Prev = node.Prev
+
+	// prepend node
+	cache.keys.Prepend(node)
+	return node.Val, true
+
 }
 
 // Method to Delete value from cache
@@ -164,4 +182,32 @@ func (cache *LRUCache) Priorities() []string {
 	}
 
 	return pkeys
+}
+
+func (cache *LRUCache) SetTTL(key string, duration time.Duration) bool {
+	// if key is present, change TTL
+	// Q? should you also reset the stored at time?
+	if cache.data[key] != nil {
+		cache.data[key].TTL = duration
+		return true
+	}
+	// if key is not present
+	return false
+}
+
+func (cache *LRUCache) ExpireTTL(key string, duration time.Duration) bool {
+	if cache.data[key] != nil {
+		cache.data[key].TTL = duration
+		cache.data[key].StoredAt = time.Now()
+		return true
+	}
+	return false
+}
+
+func (cache *LRUCache) GetTTL(key string) time.Duration {
+	node := cache.data[key]
+	if node != nil {
+		return time.Since(node.StoredAt.Add(node.TTL))
+	}
+	return -1
 }
