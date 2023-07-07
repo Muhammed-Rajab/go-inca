@@ -13,9 +13,9 @@ func main() {
 		EvictionPolicy: inca.TYPE_LRU,
 	})
 
-	cache.Memory.Set("name", "Rajab")
-	cache.Memory.Set("age", "17")
-	cache.Memory.Set("job", "swe")
+	cache.Memory.Set("name", "Rajab", -1)
+	cache.Memory.Set("age", "17", -1)
+	cache.Memory.Set("job", "swe", -1)
 
 	fmt.Println(cache.Memory.Get("name"))
 	fmt.Println(cache.Memory.Priorities())

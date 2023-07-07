@@ -20,7 +20,7 @@ func TestLRUCacheSet(t *testing.T) {
 
 	for i := 1; i <= C+1; i++ {
 		kv := strconv.FormatInt(int64(i), 10)
-		cache.Set(kv, kv)
+		cache.Set(kv, kv, -1)
 	}
 
 	if cache.keys.Tail().Val != strconv.FormatInt(int64(2), 10) {

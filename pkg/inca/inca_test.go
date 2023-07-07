@@ -14,7 +14,7 @@ func BenchmarkSetSameKey(b *testing.B) {
 	})
 
 	for i := 0; i <= b.N; i++ {
-		cache.Memory.Set("key", strconv.FormatInt(int64(i), 10))
+		cache.Memory.Set("key", strconv.FormatInt(int64(i), 10), -1)
 	}
 }
 
@@ -28,7 +28,7 @@ func BenchmarkSetKeyTillCapacity(b *testing.B) {
 
 	for i := 0; i <= CAPACITY; i++ {
 		kv := strconv.FormatInt(int64(i), 10)
-		cache.Memory.Set(kv, kv)
+		cache.Memory.Set(kv, kv, -1)
 	}
 }
 
@@ -41,7 +41,7 @@ func BenchmarkSetKeyfor1MoreThanCapacity(b *testing.B) {
 
 	for i := 0; i <= CAPACITY+1; i++ {
 		kv := strconv.FormatInt(int64(i), 10)
-		cache.Memory.Set(kv, kv)
+		cache.Memory.Set(kv, kv, -1)
 	}
 }
 
@@ -54,7 +54,7 @@ func BenchmarkSetKeyfor100MoreThanCapacity(b *testing.B) {
 
 	for i := 0; i <= CAPACITY+100; i++ {
 		kv := strconv.FormatInt(int64(i), 10)
-		cache.Memory.Set(kv, kv)
+		cache.Memory.Set(kv, kv, -1)
 	}
 }
 
@@ -67,7 +67,7 @@ func BenchmarkSetKeyfor10xCapacity(b *testing.B) {
 
 	for i := 0; i <= CAPACITY*10; i++ {
 		kv := strconv.FormatInt(int64(i), 10)
-		cache.Memory.Set(kv, kv)
+		cache.Memory.Set(kv, kv, -1)
 	}
 }
 func BenchmarkSetKey(b *testing.B) {
@@ -78,7 +78,7 @@ func BenchmarkSetKey(b *testing.B) {
 		EvictionPolicy: TYPE_LRU,
 	})
 
-	cache.Memory.Set("key", "value")
+	cache.Memory.Set("key", "value", -1)
 }
 
 func BenchmarkSetGetKey(b *testing.B) {
@@ -89,6 +89,6 @@ func BenchmarkSetGetKey(b *testing.B) {
 		EvictionPolicy: TYPE_LRU,
 	})
 
-	cache.Memory.Set("key", "value")
+	cache.Memory.Set("key", "value", -1)
 	cache.Memory.Get("key")
 }

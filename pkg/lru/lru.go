@@ -25,7 +25,7 @@ func CreateLRUCache(capacity uint32) *LRUCache {
 }
 
 // Method to Set values to cache
-func (cache *LRUCache) Set(key, val string) {
+func (cache *LRUCache) Set(key, val string, ttl time.Duration) {
 
 	// Potential bug, not updating tail node
 
@@ -37,7 +37,7 @@ func (cache *LRUCache) Set(key, val string) {
 		// Reset values to new
 		node.Key = key
 		node.Val = val
-		node.TTL = -1
+		node.TTL = ttl
 		node.StoredAt = time.Now()
 
 		// Move the node to the beginning of keys
@@ -64,7 +64,7 @@ func (cache *LRUCache) Set(key, val string) {
 
 	// Case 1 -> Cache is not full
 	if !cache.IsFull() {
-		node := dll.CreateNode(key, val, -1, nil, nil)
+		node := dll.CreateNode(key, val, ttl, nil, nil)
 		cache.data[key] = node
 		cache.keys.Prepend(node)
 		return
@@ -81,7 +81,7 @@ func (cache *LRUCache) Set(key, val string) {
 	popped := cache.keys.Pop()
 	popped.Key = key
 	popped.Val = val
-	popped.TTL = -1
+	popped.TTL = ttl
 	popped.StoredAt = time.Now()
 	delete(cache.data, popped.Key)
 	cache.data[key] = popped
@@ -182,17 +182,6 @@ func (cache *LRUCache) Priorities() []string {
 	}
 
 	return pkeys
-}
-
-func (cache *LRUCache) SetTTL(key string, duration time.Duration) bool {
-	// if key is present, change TTL
-	// Q? should you also reset the stored at time?
-	if cache.data[key] != nil {
-		cache.data[key].TTL = duration
-		return true
-	}
-	// if key is not present
-	return false
 }
 
 func (cache *LRUCache) ExpireTTL(key string, duration time.Duration) bool {

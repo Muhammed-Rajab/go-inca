@@ -25,7 +25,7 @@ type Node struct {
 func CreateNode(key, val string, ttl time.Duration, prev, next *Node) *Node {
 	return &Node{
 		key, val,
-		-1,
+		ttl,
 		time.Now(),
 		prev, next,
 	}

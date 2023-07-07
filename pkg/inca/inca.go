@@ -1,6 +1,10 @@
 package inca
 
-import "github.com/Muhammed-Rajab/go-inca/pkg/lru"
+import (
+	"time"
+
+	"github.com/Muhammed-Rajab/go-inca/pkg/lru"
+)
 
 // Configs
 type CacheType int
@@ -18,7 +22,7 @@ type IncaConfig struct {
 // Inca
 type Cache interface {
 	Get(key string) (string, bool)
-	Set(key, val string)
+	Set(key, val string, ttl time.Duration)
 	Delete(key string) bool
 	IsFull() bool
 	Priorities() []string
