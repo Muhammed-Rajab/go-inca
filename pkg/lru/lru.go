@@ -24,6 +24,15 @@ func CreateLRUCache(capacity uint32) *LRUCache {
 	return cache
 }
 
+// Methods for testing
+func (cache *LRUCache) Keys() *dll.DoublyLinkedList {
+	return cache.keys
+}
+
+func (cache *LRUCache) Data() map[string]*dll.Node {
+	return cache.data
+}
+
 // Method to Set values to cache
 func (cache *LRUCache) Set(key, val string, ttl time.Duration) {
 
@@ -39,9 +48,10 @@ func (cache *LRUCache) Set(key, val string, ttl time.Duration) {
 		if node == cache.keys.Head() {
 			// if node is head
 			return
-		} else if node.Next == nil {
+		} else if node.Next == cache.keys.Tail() {
 			// if node is tail
-			node.Prev.Next = nil
+			// node.Prev.Next = nil
+			node.Remove()
 			cache.keys.TailNode = node.Prev
 			cache.keys.Prepend(node)
 		} else {
