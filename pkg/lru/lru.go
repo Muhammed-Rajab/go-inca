@@ -28,9 +28,9 @@ func CreateLRUCache(capacity uint32) *LRUCache {
 func (cache *LRUCache) Set(key, val string, ttl time.Duration) {
 
 	// Case 0 -> Key is already present and is trying to reset the value
-	if cache.data[key] != nil {
-		// Retrieve node
-		node := cache.data[key]
+	node := cache.data[key]
+
+	if node != nil {
 
 		// Reset values to new
 		node.Reset(key, val, ttl)
@@ -42,6 +42,7 @@ func (cache *LRUCache) Set(key, val string, ttl time.Duration) {
 		} else if node.Next == nil {
 			// if node is tail
 			node.Prev.Next = nil
+			cache.keys.TailNode = node.Prev
 			cache.keys.Prepend(node)
 		} else {
 			node.Remove()
@@ -73,7 +74,6 @@ func (cache *LRUCache) Get(key string) (string, bool) {
 
 	if node == nil {
 		// Case 1 -> Key is not present
-
 		return "", false
 	}
 
@@ -96,8 +96,7 @@ func (cache *LRUCache) Get(key string) (string, bool) {
 				}
 			} else {
 				// else
-				node.Prev.Next = node.Next
-				node.Next.Prev = node.Prev
+				node.Remove()
 			}
 			// Return nothing
 			return "", false
@@ -115,12 +114,12 @@ func (cache *LRUCache) Get(key string) (string, bool) {
 	// if node is tail
 	if node.Next == nil {
 		node.Prev.Next = nil
+		cache.keys.TailNode = node.Prev
 		cache.keys.Prepend(node)
 		return node.Val, true
 	}
 
-	node.Prev.Next = node.Next
-	node.Next.Prev = node.Prev
+	node.Remove()
 
 	// prepend node
 	cache.keys.Prepend(node)
