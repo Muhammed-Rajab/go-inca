@@ -26,6 +26,7 @@ type Cache interface {
 	Get(key string) (string, bool)
 	Set(key, val string, ttl time.Duration)
 	Delete(key string) bool
+	Clear()
 
 	// Helpers
 	IsFull() bool

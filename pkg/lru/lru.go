@@ -26,10 +26,18 @@ func CreateLRUCache(capacity uint32) *LRUCache {
 
 // Methods for testing
 func (cache *LRUCache) Keys() *dll.DoublyLinkedList {
+	/*
+		Returns the linkedlist used to keep track of the LRU entry. Please don't directly access the dll
+		unless you know what you are doing. Doing the wrong thing can fuck up the whole application
+	*/
 	return cache.keys
 }
 
 func (cache *LRUCache) Data() map[string]*dll.Node {
+	/*
+		Returns the map used to keep track of the LRU entry. Please don't directly access the map
+		unless you know what you are doing. Doing the wrong thing can fuck up the whole application
+	*/
 	return cache.data
 }
 
@@ -193,6 +201,7 @@ func (cache *LRUCache) Priorities() []string {
 	return pkeys
 }
 
+// Method to reset the TTL of a key
 func (cache *LRUCache) ExpireTTL(key string, duration time.Duration) bool {
 	if cache.data[key] != nil {
 		cache.data[key].TTL = duration
@@ -202,6 +211,7 @@ func (cache *LRUCache) ExpireTTL(key string, duration time.Duration) bool {
 	return false
 }
 
+// Method to get the TTL of a key
 func (cache *LRUCache) GetTTL(key string) (time.Duration, bool) {
 	node := cache.data[key]
 	if node != nil {
@@ -211,4 +221,9 @@ func (cache *LRUCache) GetTTL(key string) (time.Duration, bool) {
 		return time.Until(node.StoredAt.Add(node.TTL)), true
 	}
 	return -1, false
+}
+
+// Method to clear the whole cache
+func (cache *LRUCache) Clear() {
+
 }
