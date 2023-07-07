@@ -1,21 +1,34 @@
 // Change this to dll
 package dll
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 // ////////////////////////////
 // NODE
 // ////////////////////////////
 type Node struct {
-	Key  string
-	Val  string
+	// Data
+	Key      string
+	Val      string
+	TTL      time.Duration
+	StoredAt time.Time
+
+	// Pointers
 	Prev *Node
 	Next *Node
 }
 
 // Function to create a node
-func CreateNode(key, val string, prev, next *Node) *Node {
-	return &Node{key, val, prev, next}
+func CreateNode(key, val string, ttl time.Duration, prev, next *Node) *Node {
+	return &Node{
+		key, val,
+		0 * time.Millisecond,
+		time.Now(),
+		prev, next,
+	}
 }
 
 // Method to display a node
@@ -47,8 +60,8 @@ func CreateDoublyLinkedListEmpty() *DoublyLinkedList {
 }
 
 func CreateDoublyLinkedListWithHead(headKey, headVal, tailKey, tailVal string) *DoublyLinkedList {
-	head := CreateNode(headKey, headVal, nil, nil)
-	tail := CreateNode(tailKey, tailVal, nil, nil)
+	head := CreateNode(headKey, headVal, -1, nil, nil)
+	tail := CreateNode(tailKey, tailVal, -1, nil, nil)
 	return &DoublyLinkedList{head, tail}
 }
 
