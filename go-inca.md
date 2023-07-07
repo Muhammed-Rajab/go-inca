@@ -83,3 +83,8 @@ some stupid shit. My brain is quite literally fried from coding for the past 10 
 Thu 06 Jul 2023 04:30:00 PM IST
 Haven't stopped coding yet, and just found out the list provided by go ain't gonna be that useful for my purpose
 ```
+
+```
+Thu 08 Jul 2023 04:30:00 AM IST
+Implemented a TTL system. Also found many bugs in the Set method as I was in a hurry to create a TTL system. Learned that always be very careful when you are modifying a struct in-place and also be careful with accessing struct fields in if-else statements. Both of these things can land you in very bad situations
+```
