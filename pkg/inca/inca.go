@@ -3,6 +3,7 @@ package inca
 import (
 	"time"
 
+	"github.com/Muhammed-Rajab/go-inca/pkg/dll"
 	"github.com/Muhammed-Rajab/go-inca/pkg/lru"
 )
 
@@ -33,6 +34,10 @@ type Cache interface {
 	// TTL
 	GetTTL(key string) (time.Duration, bool)
 	ExpireTTL(key string, duration time.Duration) bool
+
+	// Testing
+	Keys() *dll.DoublyLinkedList
+	Data() map[string]*dll.Node
 }
 
 type Inca struct {
