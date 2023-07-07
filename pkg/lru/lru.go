@@ -131,7 +131,7 @@ func (cache *LRUCache) Get(key string) (string, bool) {
 func (cache *LRUCache) Delete(key string) bool {
 	if node := cache.data[key]; node == nil {
 		// Case 1 -> key is not present
-		return cache.data[key] == nil
+		return node == nil
 	} else {
 		// Case 2 -> key is present
 
@@ -139,6 +139,9 @@ func (cache *LRUCache) Delete(key string) bool {
 		if node == cache.keys.Head() {
 			// Remove from keys
 			cache.keys.HeadNode = cache.keys.HeadNode.Next
+			if cache.keys.HeadNode != nil {
+				cache.keys.HeadNode.Prev = nil
+			}
 			// Remove from data
 			delete(cache.data, key)
 			return true
@@ -147,13 +150,13 @@ func (cache *LRUCache) Delete(key string) bool {
 		if node.Next == nil {
 			// Remove from keys
 			node.Prev.Next = nil
+			cache.keys.TailNode = node.Prev
 			// Remove from data
 			delete(cache.data, key)
 			return true
 		}
 		// else
-		node.Prev.Next = node.Next
-		node.Next.Prev = node.Prev
+		node.Remove()
 		delete(cache.data, key)
 		return true
 	}
