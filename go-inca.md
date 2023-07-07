@@ -25,7 +25,7 @@
 | Implement LFU                                                | ❌          |
 | Implement Set, Get and Delete for LRU                        | ✅          |
 | Implement Set, Get and Delete for LFU                        | ❌          |
-| Implement TTL                                                | ❌          |
+| Implement TTL                                                | ✅          |
 | Optimize caching system                                      | ❌          |
 | Add support for more data structures                         | ❌          |
 | Make a network interface to communicated via TCP(Text Based) | ❌          |
