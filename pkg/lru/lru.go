@@ -27,8 +27,6 @@ func CreateLRUCache(capacity uint32) *LRUCache {
 // Method to Set values to cache
 func (cache *LRUCache) Set(key, val string, ttl time.Duration) {
 
-	// Potential bug, not updating tail node
-
 	// Case 0 -> Key is already present and is trying to reset the value
 	if cache.data[key] != nil {
 		// Retrieve node
