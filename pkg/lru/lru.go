@@ -97,6 +97,24 @@ func (cache *LRUCache) Get(key string) (string, bool) {
 	if node.TTL != -1 {
 		if time.Since(node.StoredAt) >= node.TTL {
 			// Remove the node
+			// if head, update both node
+			if node == cache.keys.Head() {
+
+				cache.keys.HeadNode = cache.keys.HeadNode.Next
+				if cache.keys.HeadNode != nil {
+					cache.keys.HeadNode.Prev = nil
+				}
+			} else if node == cache.keys.Tail() {
+				// if tail, update both node
+				cache.keys.TailNode = cache.keys.TailNode.Prev
+				if cache.keys.TailNode != nil {
+					cache.keys.TailNode.Next = nil
+				}
+			} else {
+				// else
+				node.Prev.Next = node.Next
+				node.Next.Prev = node.Prev
+			}
 			// Return nothing
 			return "", false
 		}
