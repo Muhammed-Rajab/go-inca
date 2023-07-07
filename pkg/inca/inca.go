@@ -21,11 +21,18 @@ type IncaConfig struct {
 
 // Inca
 type Cache interface {
+	// CRUD
 	Get(key string) (string, bool)
 	Set(key, val string, ttl time.Duration)
 	Delete(key string) bool
+
+	// Helpers
 	IsFull() bool
 	Priorities() []string
+
+	// TTL
+	GetTTL(key string) time.Duration
+	ExpireTTL(key string, duration time.Duration) bool
 }
 
 type Inca struct {

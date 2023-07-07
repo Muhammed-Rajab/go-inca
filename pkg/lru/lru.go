@@ -70,13 +70,6 @@ func (cache *LRUCache) Set(key, val string, ttl time.Duration) {
 		return
 	}
 
-	// Case 2 -> Cache is full
-	// node := dll.CreateNode(key, val, nil, nil)
-	// popped := cache.keys.Pop()
-	// delete(cache.data, popped.Key)
-	// cache.data[key] = node
-	// cache.keys.Prepend(node)
-
 	// Case 2, better implementation
 	popped := cache.keys.Pop()
 	popped.Key = key
