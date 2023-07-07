@@ -48,15 +48,17 @@ func (cache *LRUCache) Set(key, val string, ttl time.Duration) {
 		if node == cache.keys.Head() {
 			// if node is head
 			return
-		} else if node.Next == cache.keys.Tail() {
+		} else if node == cache.keys.Tail() {
 			// if node is tail
 			// node.Prev.Next = nil
 			node.Remove()
 			cache.keys.TailNode = node.Prev
 			cache.keys.Prepend(node)
+			return
 		} else {
 			node.Remove()
 			cache.keys.Prepend(node)
+			return
 		}
 	}
 

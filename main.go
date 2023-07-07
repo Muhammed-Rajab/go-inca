@@ -18,6 +18,6 @@ func main() {
 	cache.Memory.Set("job", "swe", -1)
 	cache.Memory.Set("address", "house", -1)
 	cache.Memory.Set("phno", "8098123122", -1)
-	cache.Memory.Set("age", "boob inspector", -1)
+	cache.Memory.Set("address", "boob inspector", -1)
 	fmt.Println(cache.Memory.Priorities())
 }
