@@ -33,7 +33,10 @@ func CreateNode(key, val string, ttl time.Duration, prev, next *Node) *Node {
 
 // Method to display a node
 func (node *Node) Display() {
-	fmt.Printf("value: %s\n", node.Val)
+	fmt.Printf("Key: %s\n", node.Key)
+	fmt.Printf("Value: %s\n", node.Val)
+	fmt.Printf("TTL: %s\n", node.TTL)
+	fmt.Printf("Stored At: %s\n", node.StoredAt)
 }
 
 // Method to reset node values
@@ -104,13 +107,6 @@ func (dll *DoublyLinkedList) Head() *Node {
 
 // Method to get Tail Node
 func (dll *DoublyLinkedList) Tail() *Node {
-	// Implementation 1 -> O(n)
-	// temp := dll.Head()
-	// for temp.Next != nil {
-	// 	temp = temp.Next
-	// }
-	// return temp
-	// Implementation 2 -> O(1), supposedly :)
 	return dll.TailNode
 }
 
