@@ -1,10 +1,12 @@
 package inca
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/Muhammed-Rajab/go-inca/pkg/dll"
 	"github.com/Muhammed-Rajab/go-inca/pkg/lru"
+	queryparser "github.com/Muhammed-Rajab/go-inca/pkg/query_parser"
 )
 
 // Configs
@@ -53,4 +55,16 @@ func CreateInca(config *IncaConfig) *Inca {
 	inca.Config = *config
 	inca.Memory = lru.CreateLRUCache(config.Capacity)
 	return inca
+}
+
+func (cache *Inca) Run(query string) {
+	parsed, err := queryparser.Parse(query)
+
+	// Handle parser error
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(parsed)
 }
