@@ -151,7 +151,7 @@ func (cache *LRUCache) Get(key string) (string, bool) {
 func (cache *LRUCache) Delete(key string) bool {
 	if node := cache.data[key]; node == nil {
 		// Case 1 -> key is not present
-		return node == nil
+		return false
 	} else {
 		// Case 2 -> key is present
 

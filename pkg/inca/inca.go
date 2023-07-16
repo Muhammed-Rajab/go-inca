@@ -66,5 +66,27 @@ func (cache *Inca) Run(query string) {
 		return
 	}
 
-	fmt.Println(parsed)
+	// Run command based on it
+	if parsed.CommandType == "GET" {
+		if val, present := cache.Memory.Get(parsed.Args.Key); present {
+			fmt.Printf("%s\n", val)
+		} else {
+			fmt.Printf("ERROR: Not present\n")
+		}
+	} else if parsed.CommandType == "DELETE" {
+		if done := cache.Memory.Delete(parsed.Args.Key); !done {
+			fmt.Printf("ERROR: Not present\n")
+		} else {
+			fmt.Printf("DONE\n")
+		}
+	} else if parsed.CommandType == "CLEAR" {
+		cache.Memory.Clear()
+		fmt.Printf("DONE\n")
+	} else if parsed.CommandType == "TTL" {
+		if duration, present := cache.Memory.GetTTL(parsed.Args.Key); !present {
+			fmt.Printf("ERROR: Not present\n")
+		} else {
+			fmt.Printf("%s\n", duration)
+		}
+	}
 }

@@ -109,6 +109,7 @@ func Parse(query string) (*ParsedQuery, error) {
 		}
 		return createParsedQuery("SET", key, value, ttl), nil
 	}
+	// handle expire
 
 	return parsed, nil
 }
