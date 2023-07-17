@@ -40,9 +40,12 @@ func cleanString(s string) string {
 }
 
 func cleanTTL(ttl string) (string, error) {
-	_, err := strconv.ParseFloat(strings.TrimSpace(ttl), 32)
+	v, err := strconv.ParseFloat(strings.TrimSpace(ttl), 32)
 	if err != nil {
 		return "-1", fmt.Errorf("parse error: invalid ttl provided")
+	}
+	if v <= 0 {
+		return "-1", nil
 	}
 	return ttl, nil
 }
@@ -59,6 +62,7 @@ func Parse(query string) (*ParsedQuery, error) {
 	}
 
 	// Case 2: Valid Command parse using regex
+	// CMD KEY VAL TTL
 	pattern := `^(?i)(GET|SET|DELETE|CLEAR|TTL|EXPIRE|KEYS){1}([ ]+[^\s]*)?([ ]+\"(?:.*?)*\")?([ ]+-?\d*)?$`
 	re := regexp.MustCompile(pattern)
 	// re := regexp.MustCompile(`^(?i)(get|set|delete|clear|ttl|expire|keys)(\s+.+){0,3}\s*$`)

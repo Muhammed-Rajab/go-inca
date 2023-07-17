@@ -19,7 +19,7 @@ func main() {
 	// fmt.Println(cache.Memory.Priorities())
 	cache.Run("SET job \"sfsdf\" 100")
 	cache.Run("TTL job")
-	cache.Run("EXPIRE job -1")
+	cache.Run("EXPIRE job -10")
 	cache.Run("TTL job")
 	cache.Run("GET job")
 }
