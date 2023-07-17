@@ -88,3 +88,8 @@ Haven't stopped coding yet, and just found out the list provided by go ain't gon
 Thu 08 Jul 2023 04:30:00 AM IST
 Implemented a TTL system. Also found many bugs in the Set method as I was in a hurry to create a TTL system. Learned that always be very careful when you are modifying a struct in-place and also be careful with accessing struct fields in if-else statements. Both of these things can land you in very bad situations
 ```
+
+```
+Mon 17 Jul 2023 03:49:40 PM IST
+Forgot to log days. Implemented a simple command parser. There might be some uncaught bugs, but it's working as of now. Should've made a rule/syntax layout before hand starting the parser. but nonetheless, it's working!
+```
