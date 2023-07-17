@@ -103,5 +103,8 @@ func (cache *Inca) Run(query string) {
 		}
 		cache.Memory.ExpireTTL(parsed.Args.Key, duration)
 		fmt.Println("DONE")
+	} else if parsed.CommandType == "KEYS" {
+		// Implement a better way
+		cache.Memory.Keys().Display()
 	}
 }

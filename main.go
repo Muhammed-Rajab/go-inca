@@ -11,15 +11,11 @@ func main() {
 		EvictionPolicy: inca.TYPE_LRU,
 	})
 
-	cache.Memory.Set("name", "Rajab", -1)
-	cache.Memory.Set("age", "17", -1)
-	cache.Memory.Set("job", "swe", -1)
-	cache.Memory.Set("lol", "gege", -1)
-	cache.Memory.Get("job")
-	// fmt.Println(cache.Memory.Priorities())
-	cache.Run("SET job \"sfsdf\" 100")
-	cache.Run("TTL job")
-	cache.Run("EXPIRE job -10")
-	cache.Run("TTL job")
-	cache.Run("GET job")
+	cache.Run(`GET name`)
+	cache.Run(`SET name "Rajab"`)
+	cache.Run(`GET name`)
+	cache.Run(`EXPIRE name 10`)
+	cache.Run(`EXPIRE name -1`)
+	cache.Run(`KEYS`)
+	cache.Run(`TTL name`)
 }
