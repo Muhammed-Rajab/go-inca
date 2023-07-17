@@ -17,6 +17,6 @@ func main() {
 	cache.Memory.Set("lol", "gege", -1)
 	cache.Memory.Get("job")
 	// fmt.Println(cache.Memory.Priorities())
-	cache.Run("SET job \"sfsdf\" 100")
-	cache.Run("SET job \"sfsdf\" 100  ")
+	cache.Run("SET job \"sfsdf\"")
+	cache.Run("GET job")
 }
