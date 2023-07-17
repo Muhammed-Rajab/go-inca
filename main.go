@@ -1,8 +1,6 @@
 package main
 
 import (
-	"time"
-
 	"github.com/Muhammed-Rajab/go-inca/pkg/inca"
 )
 
@@ -19,7 +17,9 @@ func main() {
 	cache.Memory.Set("lol", "gege", -1)
 	cache.Memory.Get("job")
 	// fmt.Println(cache.Memory.Priorities())
-	cache.Run("SET job \"sfsdf\" 1")
-	time.Sleep(2 * time.Second)
+	cache.Run("SET job \"sfsdf\" 100")
+	cache.Run("TTL job")
+	cache.Run("EXPIRE job -1")
+	cache.Run("TTL job")
 	cache.Run("GET job")
 }

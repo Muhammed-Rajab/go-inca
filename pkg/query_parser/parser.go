@@ -59,7 +59,7 @@ func Parse(query string) (*ParsedQuery, error) {
 	}
 
 	// Case 2: Valid Command parse using regex
-	pattern := `^(?i)(GET|SET|DELETE|CLEAR|TTL|EXPIRE|KEYS){1}([ ]+[^\s]*)?([ ]+\"(?:.*?)*\")?([ ]+\d*)?$`
+	pattern := `^(?i)(GET|SET|DELETE|CLEAR|TTL|EXPIRE|KEYS){1}([ ]+[^\s]*)?([ ]+\"(?:.*?)*\")?([ ]+-?\d*)?$`
 	re := regexp.MustCompile(pattern)
 	// re := regexp.MustCompile(`^(?i)(get|set|delete|clear|ttl|expire|keys)(\s+.+){0,3}\s*$`)
 
@@ -113,10 +113,26 @@ func Parse(query string) (*ParsedQuery, error) {
 		}
 		// Remove this clean string method and handle it properly later
 		return createParsedQuery("SET", cleanString(key), cleanString(value), cleanString(ttl)), nil
+	} else if cmd == "EXPIRE" {
+		// check for key. if key is present change the duration + storedat (reset the node)
+		args := splitted[1:]
+		key := args[0]
+		ttl := args[2]
+		if key == "" || ttl == "" {
+			return parsed, fmt.Errorf("parse error: key/duration value not provided")
+		}
+		key = cleanKeys(key)
+		ttl, err := cleanTTL(ttl)
+
+		if err != nil {
+			return parsed, err
+		}
+
+		return createParsedQuery("EXPIRE", cleanString(key), "", cleanString(ttl)), nil
 	}
 	// handle expire
 
-	return parsed, nil
+	return parsed, fmt.Errorf("syntax error: command not found")
 }
 
 func main() {

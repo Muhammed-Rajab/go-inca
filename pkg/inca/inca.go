@@ -91,12 +91,17 @@ func (cache *Inca) Run(query string) {
 	} else if parsed.CommandType == "SET" {
 		// if ttl is "-1", then set it to -1 ns
 		var duration time.Duration = -1
-		fmt.Println(parsed.Args.TTL)
 		if parsed.Args.TTL != "-1" {
 			duration, _ = time.ParseDuration(parsed.Args.TTL + "s")
 		}
-		fmt.Println(duration)
 		cache.Memory.Set(parsed.Args.Key, parsed.Args.Val, duration)
+		fmt.Println("DONE")
+	} else if parsed.CommandType == "EXPIRE" {
+		var duration time.Duration = -1
+		if parsed.Args.TTL != "-1" {
+			duration, _ = time.ParseDuration(parsed.Args.TTL + "s")
+		}
+		cache.Memory.ExpireTTL(parsed.Args.Key, duration)
 		fmt.Println("DONE")
 	}
 }
