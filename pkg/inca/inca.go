@@ -91,6 +91,7 @@ func (cache *Inca) Run(query string) {
 	} else if parsed.CommandType == "SET" {
 		// if ttl is "-1", then set it to -1 ns
 		var duration time.Duration = -1
+		fmt.Println(parsed.Args.TTL)
 		if parsed.Args.TTL != "-1" {
 			duration, _ = time.ParseDuration(parsed.Args.TTL + "s")
 		}

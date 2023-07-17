@@ -35,6 +35,10 @@ func cleanKeys(key string) string {
 	return strings.TrimSpace(key)
 }
 
+func cleanString(s string) string {
+	return strings.TrimSpace(s)
+}
+
 func cleanTTL(ttl string) (string, error) {
 	_, err := strconv.ParseFloat(strings.TrimSpace(ttl), 32)
 	if err != nil {
@@ -107,7 +111,8 @@ func Parse(query string) (*ParsedQuery, error) {
 			}
 			ttl = val
 		}
-		return createParsedQuery("SET", key, value, ttl), nil
+		// Remove this clean string method and handle it properly later
+		return createParsedQuery("SET", cleanString(key), cleanString(value), cleanString(ttl)), nil
 	}
 	// handle expire
 
