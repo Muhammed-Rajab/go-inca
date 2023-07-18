@@ -3,6 +3,9 @@ package lru
 import (
 	"strconv"
 	"testing"
+	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestLRUCacheSet(t *testing.T) {
@@ -30,4 +33,28 @@ func TestLRUCacheSet(t *testing.T) {
 	if cache.keys.Head().Val != strconv.FormatInt(int64(C+1), 10) {
 		t.Errorf("LRUCacheSet test failed! output: %s, expected: %s.\n", cache.keys.Head().Val, strconv.FormatInt(int64(C+1), 10))
 	}
+}
+
+func TestLRUSetLengthNoTTL(t *testing.T) {
+	const C = 3
+	cache := CreateLRUCache(C)
+
+	cache.Set("name", "rajab", -1)
+	cache.Set("age", "17", -1)
+	cache.Set("job", "swe", -1)
+	t.Logf("Length: %d\n", cache.keys.LengthC)
+	assert.Equal(t, uint32(3), cache.keys.LengthC)
+}
+
+func TestLRUSetLengthTTL(t *testing.T) {
+	const C = 3
+	cache := CreateLRUCache(C)
+
+	cache.Set("name", "rajab", 1)
+	cache.Set("age", "17", 2)
+	cache.Set("job", "swe", 2)
+	time.Sleep(1 * time.Second)
+	cache.Get("name")
+	t.Logf("Length: %d\n", cache.keys.LengthC)
+	assert.Equal(t, uint32(2), cache.keys.LengthC)
 }

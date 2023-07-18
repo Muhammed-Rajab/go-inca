@@ -94,3 +94,9 @@ Implemented a TTL system. Also found many bugs in the Set method as I was in a h
 Mon 17 Jul 2023 03:49:40 PM IST
 Forgot to log days. Implemented a simple command parser. There might be some uncaught bugs, but it's working as of now. Should've made a rule/syntax layout before hand starting the parser. but nonetheless, it's working!
 ```
+
+```
+Tue 18 Jul 2023 04:05:41 PM IST
+Found a flaw in the system. If I'm trying to access length and if a key's TTL is already expired, the key won't be removed until it's accessed or get evicted by the LRU system.
+This means if my capacity(C) = 3 and key1 is already expired, the length would still be 3 since there's no background service checking for eviction
+```
