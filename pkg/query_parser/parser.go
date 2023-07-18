@@ -137,37 +137,3 @@ func Parse(query string) (*ParsedQuery, error) {
 
 	return parsed, fmt.Errorf("parser error: command not found")
 }
-
-func main() {
-	queries := []string{
-		`GET`,
-		`GET key`,
-		`GET          key    `,
-		`GET 12key`,
-		`GET @#!$$_12key`,
-		`GET "key"`,
-		`SET name "Rajab is good"`,
-		`SET name       "Rajab is good"  `,
-		`SET name "adasdasdasd  \n\nRajab is good"  `,
-		`SET name "adasdasdasd  \n\nRajab is good`,
-		`SET name "adasdasdasd  \n\nRajab is good" sfsfsd fsdfs fsd fd`,
-		`SET name "Rajab" 10000`,
-		`SET name "भारत" 10000`,
-		`SET name "Rajab" 10000   `,
-		`SET name`,
-		"DELETE name",
-		"CLEAR",
-		"TTL name",
-		"EXPIRE name 800",
-		"KEYS",
-	}
-
-	for index, query := range queries {
-		parsed, err := Parse(query)
-		if err != nil {
-			fmt.Printf("%d -> %s -> ERROR: %s\n", index, query, err.Error())
-			continue
-		}
-		fmt.Printf("%d -> %s -> %v\n", index, query, parsed)
-	}
-}
