@@ -69,3 +69,25 @@ func TestLRUSetLengthAlreadyPresent(t *testing.T) {
 	t.Logf("Length: %d\n", cache.keys.LengthC)
 	assert.Equal(t, uint32(2), cache.keys.LengthC)
 }
+
+func TestLRUSetLengthFull(t *testing.T) {
+	const C = 3
+	cache := CreateLRUCache(C)
+
+	cache.Set("name", "rajab", -1)
+	cache.Set("age", "17", -1)
+	cache.Set("job", "swe", -1)
+	cache.Set("passion", "programming", -1)
+	t.Logf("Length: %d\n", cache.keys.LengthC)
+	assert.Equal(t, uint32(3), cache.keys.LengthC)
+}
+
+func TestLRUSetLengthNotFull(t *testing.T) {
+	const C = 3
+	cache := CreateLRUCache(C)
+
+	cache.Set("name", "rajab", -1)
+	cache.Set("age", "17", -1)
+	t.Logf("Length: %d\n", cache.keys.LengthC)
+	assert.Equal(t, uint32(2), cache.keys.LengthC)
+}
