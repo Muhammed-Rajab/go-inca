@@ -65,50 +65,48 @@ func Parse(query string) (*ParsedQuery, error) {
 	// CMD KEY VAL TTL
 	pattern := `^(?i)(GET|SET|DELETE|CLEAR|TTL|EXPIRE|KEYS){1}([ ]+[^\s]*)?([ ]+\"(?:.*?)*\")?([ ]+-?\d*)?$`
 	re := regexp.MustCompile(pattern)
-	// re := regexp.MustCompile(`^(?i)(get|set|delete|clear|ttl|expire|keys)(\s+.+){0,3}\s*$`)
 
+	// Case 3: Query doesn't match the pattern
 	if !re.MatchString(query) {
 		return parsed, fmt.Errorf("parse error: invalid query")
 	}
 
-	// Case 3: Return ParsedQuery based on the command
+	// Case 4: Return ParsedQuery based on the command
 	splitted := re.FindStringSubmatch(query)[1:]
+	args := splitted[1:]
 	cmd := splitted[0]
 
-	// fmt.Printf("%q\n", splitted)
-
 	if cmd == "GET" {
-		if splitted[1] != "" {
-			key := cleanKeys(splitted[1])
+		key := cleanKeys(splitted[1])
+		if key != "" {
 			return createParsedQuery("GET", key, "", ""), nil
 		}
-		return parsed, fmt.Errorf("parse error: invalid key provided")
+		return parsed, fmt.Errorf("parse error: invalid key provided %s", key)
 	} else if cmd == "DELETE" {
-		if splitted[1] != "" {
-			key := cleanKeys(splitted[1])
+		key := cleanKeys(splitted[1])
+		if key != "" {
 			return createParsedQuery("DELETE", key, "", ""), nil
 		}
-		return parsed, fmt.Errorf("parse error: invalid key provided")
+		return parsed, fmt.Errorf("parse error: invalid key provided %s", key)
 	} else if cmd == "CLEAR" {
-		return createParsedQuery("DELETE", "", "", ""), nil
+		return createParsedQuery("CLEAR", "", "", ""), nil
 	} else if cmd == "KEYS" {
 		return createParsedQuery("KEYS", "", "", ""), nil
 	} else if cmd == "TTL" {
-		if splitted[1] != "" {
-			key := cleanKeys(splitted[1])
+		key := cleanKeys(splitted[1])
+		if key != "" {
 			return createParsedQuery("TTL", key, "", ""), nil
 		}
-		return parsed, fmt.Errorf("parse error: invalid key provided")
+		return parsed, fmt.Errorf("parse error: invalid key provided %s", key)
 	} else if cmd == "SET" {
-		args := splitted[1:]
-		length := len(args)
-		if length < 2 {
-			return parsed, fmt.Errorf("parse error: key/value not provided")
-		}
 		key := cleanKeys(args[0])
 		value := cleanKeys(args[1])
+		if key == "" {
+			return parsed, fmt.Errorf("parse error: key not provided")
+		}
+
 		ttl := "-1"
-		if length >= 3 && args[2] != "" {
+		if args[2] != "" {
 			val, err := cleanTTL(args[2])
 			if err != nil {
 				return parsed, err
@@ -119,13 +117,13 @@ func Parse(query string) (*ParsedQuery, error) {
 		return createParsedQuery("SET", cleanString(key), cleanString(value), cleanString(ttl)), nil
 	} else if cmd == "EXPIRE" {
 		// check for key. if key is present change the duration + storedat (reset the node)
-		args := splitted[1:]
-		key := args[0]
-		ttl := args[2]
+		key := cleanKeys(args[0])
+		ttl := cleanString(args[2])
+
 		if key == "" || ttl == "" {
 			return parsed, fmt.Errorf("parse error: key/duration value not provided")
 		}
-		key = cleanKeys(key)
+
 		ttl, err := cleanTTL(ttl)
 
 		if err != nil {
@@ -134,9 +132,8 @@ func Parse(query string) (*ParsedQuery, error) {
 
 		return createParsedQuery("EXPIRE", cleanString(key), "", cleanString(ttl)), nil
 	}
-	// handle expire
 
-	return parsed, fmt.Errorf("syntax error: command not found")
+	return parsed, fmt.Errorf("parser error: command not found")
 }
 
 func main() {
