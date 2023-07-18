@@ -113,9 +113,9 @@ func TestLRUGetLengthTTL(t *testing.T) {
 	const C = 3
 	cache := CreateLRUCache(C)
 
-	cache.Set("name", "rajab", 1)
-	cache.Set("age", "17", 2)
-	cache.Set("job", "swe", 2)
+	cache.Set("name", "rajab", 1*time.Second)
+	cache.Set("age", "17", 2*time.Second)
+	cache.Set("job", "swe", 2*time.Second)
 	assert.Equal(t, uint32(3), cache.keys.LengthC)
 	time.Sleep(1000 * time.Millisecond)
 	cache.Get("name")
@@ -128,4 +128,27 @@ func TestLRUGetLengthTTL(t *testing.T) {
 }
 
 // 3. alread present length test?
+func TestLRUGetLengthAlreadyPresent(t *testing.T) {
+	const C = 3
+	cache := CreateLRUCache(C)
+
+	cache.Set("name", "rajab", 2*time.Second)
+	cache.Set("age", "17", 2*time.Second)
+	cache.Get("name")
+	cache.Get("name")
+	t.Logf("Length: %d\n", cache.keys.LengthC)
+	assert.Equal(t, uint32(2), cache.keys.LengthC)
+}
+
 // 4. full length test?
+func TestLRUGetLengthFull(t *testing.T) {
+	const C = 3
+	cache := CreateLRUCache(C)
+
+	cache.Set("name", "rajab", -1)
+	cache.Set("age", "17", -1)
+	cache.Set("job", "swe", -1)
+	cache.Get("name")
+	t.Logf("Length: %d\n", cache.keys.LengthC)
+	assert.Equal(t, uint32(3), cache.keys.LengthC)
+}
