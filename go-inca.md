@@ -100,3 +100,9 @@ Tue 18 Jul 2023 04:05:41 PM IST
 Found a flaw in the system. If I'm trying to access length and if a key's TTL is already expired, the key won't be removed until it's accessed or get evicted by the LRU system.
 This means if my capacity(C) = 3 and key1 is already expired, the length would still be 3 since there's no background service checking for eviction
 ```
+
+```
+Tue 18 Jul 2023 04:43:26 PM IST
+I don't know whether this is true or not, but i just did a bench mark test and the results are pretty, good, atleast.
+for the `IsFull()` method with O(N) complexity, BenchmarkSetKeyfor10xCapacity-16 gave around `1690250273 ns/op`, which is atrocious for a cache. But ever since if made the method O(1) by keeping track of the length, the bench mark gave me `0.2400 ns/op`, which is wayyy better than the previous one. Since there's no O(N) operation being done, it must've made a real difference in the algorithm. I don't know how to check it properly. I guess I should ask someone from discord to help me with it.
+```
