@@ -2,6 +2,7 @@ package inca
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/Muhammed-Rajab/go-inca/pkg/dll"
@@ -105,8 +106,12 @@ func (cache *Inca) Run(query string) (string, error) {
 		cache.Memory.ExpireTTL(parsed.Args.Key, duration)
 		return "DONE", nil
 	} else if parsed.CommandType == "KEYS" {
-		// Implement a better way
-		cache.Memory.Keys().Display()
+		keys := cache.Memory.Priorities()
+		quotes := "\""
+		if len(keys) == 0 {
+			quotes = ""
+		}
+		return fmt.Sprintf("[%s%s%s]", quotes, strings.Join(keys, "\", \""), quotes), nil
 	}
 
 	return "", fmt.Errorf("syntax error: invalid query `%s`", query)
