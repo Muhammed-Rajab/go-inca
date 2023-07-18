@@ -152,3 +152,30 @@ func TestLRUGetLengthFull(t *testing.T) {
 	t.Logf("Length: %d\n", cache.keys.LengthC)
 	assert.Equal(t, uint32(3), cache.keys.LengthC)
 }
+
+// Delete tests
+func TestLRUDeleteHead(t *testing.T) {
+	const C = 3
+	cache := CreateLRUCache(C)
+
+	cache.Set("name", "rajab", -1)
+	cache.Set("age", "17", -1)
+	cache.Set("job", "swe", -1)
+	cache.Delete("job")
+	cache.Delete("age")
+	assert.Equal(t, cache.keys.HeadNode, cache.keys.TailNode)
+	assert.Equal(t, uint32(1), cache.keys.LengthC)
+}
+
+func TestLRUDeleteTail(t *testing.T) {
+	const C = 3
+	cache := CreateLRUCache(C)
+
+	cache.Set("name", "rajab", -1)
+	cache.Set("age", "17", -1)
+	cache.Set("job", "swe", -1)
+	cache.Delete("name")
+	cache.Delete("age")
+	assert.Equal(t, cache.keys.HeadNode, cache.keys.TailNode)
+	assert.Equal(t, uint32(1), cache.keys.LengthC)
+}
