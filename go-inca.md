@@ -32,6 +32,7 @@
 | Make it work flawless with multiple concurrent users         | ❌          |
 | Refactor DLL                                                 | ❌          |
 | Refactor LRU                                                 | ❌          |
+| Refactor Parser                                              | ✅          |
 | Implement a parser to read text commands                     | ✅          |
 
 ### Dev logs 🗒️
