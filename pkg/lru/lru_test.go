@@ -8,6 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// Set tests
 func TestLRUCacheSet(t *testing.T) {
 	/*
 		Objectives:
@@ -91,3 +92,40 @@ func TestLRUSetLengthNotFull(t *testing.T) {
 	t.Logf("Length: %d\n", cache.keys.LengthC)
 	assert.Equal(t, uint32(2), cache.keys.LengthC)
 }
+
+// Get tests
+// 1. No TTL length test?
+func TestLRUGetLengthNoTTL(t *testing.T) {
+	const C = 3
+	cache := CreateLRUCache(C)
+
+	cache.Set("name", "rajab", -1)
+	cache.Set("age", "17", -1)
+	cache.Set("job", "swe", -1)
+	cache.Get("name")
+	cache.Get("age")
+	t.Logf("Length: %d\n", cache.keys.LengthC)
+	assert.Equal(t, uint32(3), cache.keys.LengthC)
+}
+
+// 2. TTL length test?
+func TestLRUGetLengthTTL(t *testing.T) {
+	const C = 3
+	cache := CreateLRUCache(C)
+
+	cache.Set("name", "rajab", 1)
+	cache.Set("age", "17", 2)
+	cache.Set("job", "swe", 2)
+	assert.Equal(t, uint32(3), cache.keys.LengthC)
+	time.Sleep(1000 * time.Millisecond)
+	cache.Get("name")
+	assert.Equal(t, uint32(2), cache.keys.LengthC)
+	time.Sleep(2000 * time.Millisecond)
+	cache.Get("age")
+	cache.Get("job")
+	assert.Equal(t, uint32(0), cache.keys.LengthC)
+	t.Logf("Length: %d\n", cache.keys.LengthC)
+}
+
+// 3. alread present length test?
+// 4. full length test?

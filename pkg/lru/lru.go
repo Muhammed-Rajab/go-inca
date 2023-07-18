@@ -73,7 +73,7 @@ func (cache *LRUCache) Set(key, val string, ttl time.Duration) {
 	}
 
 	// Case 1 -> Cache is not full
-	if !cache.IsFull() {
+	if !cache.IsFull() { // O(N), wtf? this is what made my code slow
 		node := dll.CreateNode(key, val, ttl, nil, nil)
 		cache.data[key] = node
 		cache.keys.Prepend(node)
