@@ -92,13 +92,14 @@ func (dll *DoublyLinkedList) Display() {
 // Method to get length of the dll
 // Better way: keep track of the length without calculating it every single time
 func (dll *DoublyLinkedList) Length() uint32 {
-	len := 0
-	temp := dll.Head()
-	for temp != nil {
-		len++
-		temp = temp.Next
-	}
-	return uint32(len)
+	// len := 0
+	// temp := dll.Head()
+	// for temp != nil {
+	// 	len++
+	// 	temp = temp.Next
+	// }
+	// return uint32(len)
+	return uint32(dll.LengthC)
 }
 
 // Method to get Head Node

@@ -192,7 +192,7 @@ func (cache *LRUCache) Delete(key string) bool {
 // Method to check if the capacity is reached
 // Optimized way: keep track of capacity using another variable in the struct
 func (cache *LRUCache) IsFull() bool {
-	return cache.keys.LengthC == cache.capacity
+	return cache.keys.Length() == cache.capacity
 }
 
 // Method to return the list format of key priorities
