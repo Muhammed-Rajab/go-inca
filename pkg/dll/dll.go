@@ -63,17 +63,18 @@ func (node *Node) Remove() {
 type DoublyLinkedList struct {
 	HeadNode *Node
 	TailNode *Node
+	_length  uint32
 }
 
 // Function to create a DLL
 func CreateDoublyLinkedListEmpty() *DoublyLinkedList {
-	return &DoublyLinkedList{nil, nil}
+	return &DoublyLinkedList{nil, nil, 0}
 }
 
 func CreateDoublyLinkedListWithHead(headKey, headVal, tailKey, tailVal string) *DoublyLinkedList {
 	head := CreateNode(headKey, headVal, -1, nil, nil)
 	tail := CreateNode(tailKey, tailVal, -1, nil, nil)
-	return &DoublyLinkedList{head, tail}
+	return &DoublyLinkedList{head, tail, 1}
 }
 
 // Method to display the dll
