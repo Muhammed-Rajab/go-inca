@@ -100,23 +100,25 @@ func Parse(query string) (*ParsedQuery, error) {
 		return parsed, fmt.Errorf("parse error: invalid key provided %s", key)
 	} else if cmd == "SET" {
 		key := cleanKeys(args[0])
-		value := cleanKeys(args[1])
+		value := cleanString(args[1])
 		if key == "" {
 			return parsed, fmt.Errorf("parse error: key not provided")
 		}
 
 		ttl := "-1"
+
+		// Check if ttl is present in query
 		if args[2] != "" {
 			val, err := cleanTTL(args[2])
 			if err != nil {
 				return parsed, err
 			}
-			ttl = val
+			ttl = cleanString(val)
 		}
+
 		// Remove this clean string method and handle it properly later
-		return createParsedQuery("SET", cleanString(key), cleanString(value), cleanString(ttl)), nil
+		return createParsedQuery("SET", key, value, ttl), nil
 	} else if cmd == "EXPIRE" {
-		// check for key. if key is present change the duration + storedat (reset the node)
 		key := cleanKeys(args[0])
 		ttl := cleanString(args[2])
 
