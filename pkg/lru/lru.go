@@ -120,6 +120,7 @@ func (cache *LRUCache) Get(key string) (string, bool) {
 				// else
 				node.Remove()
 			}
+			cache.keys.LengthC--
 			// Return nothing
 			return "", false
 		}
@@ -137,13 +138,14 @@ func (cache *LRUCache) Get(key string) (string, bool) {
 	if node.Next == nil {
 		node.Prev.Next = nil
 		cache.keys.TailNode = node.Prev
+		cache.keys.LengthC--
 		cache.keys.Prepend(node)
 		return node.Val, true
 	}
 
-	node.Remove()
-
 	// prepend node
+	node.Remove()
+	cache.keys.LengthC--
 	cache.keys.Prepend(node)
 	return node.Val, true
 
