@@ -57,36 +57,37 @@ func CreateInca(config *IncaConfig) *Inca {
 	return inca
 }
 
-func (cache *Inca) Run(query string) {
+func (cache *Inca) Run(query string) (string, error) {
 	parsed, err := queryparser.Parse(query)
 
 	// Handle parser error
 	if err != nil {
-		fmt.Println(err)
-		return
+		return "", err
 	}
 
 	// Run command based on it
 	if parsed.CommandType == "GET" {
+		// Return val if present, else return error
 		if val, present := cache.Memory.Get(parsed.Args.Key); present {
-			fmt.Printf("%s\n", val)
+			return val, nil
 		} else {
-			fmt.Printf("ERROR: Not present\n")
+			return "", fmt.Errorf("GET error: key '%s' not present", parsed.Args.Key)
 		}
 	} else if parsed.CommandType == "DELETE" {
+		// If deleted, then return DONE, else return error
 		if done := cache.Memory.Delete(parsed.Args.Key); !done {
-			fmt.Printf("ERROR: Not present\n")
+			return "", fmt.Errorf("GET error: key '%s' not present", parsed.Args.Key)
 		} else {
-			fmt.Printf("DONE\n")
+			return "DONE", nil
 		}
 	} else if parsed.CommandType == "CLEAR" {
 		cache.Memory.Clear()
-		fmt.Printf("DONE\n")
+		return "DONE", nil
 	} else if parsed.CommandType == "TTL" {
 		if duration, present := cache.Memory.GetTTL(parsed.Args.Key); !present {
-			fmt.Printf("ERROR: Not present\n")
+			return "", fmt.Errorf("GET error: key '%s' not present", parsed.Args.Key)
 		} else {
-			fmt.Printf("%s\n", duration)
+			return duration.String(), nil
 		}
 	} else if parsed.CommandType == "SET" {
 		// if ttl is "-1", then set it to -1 ns
@@ -95,16 +96,18 @@ func (cache *Inca) Run(query string) {
 			duration, _ = time.ParseDuration(parsed.Args.TTL + "s")
 		}
 		cache.Memory.Set(parsed.Args.Key, parsed.Args.Val, duration)
-		fmt.Println("DONE")
+		return "DONE", nil
 	} else if parsed.CommandType == "EXPIRE" {
 		var duration time.Duration = -1
 		if parsed.Args.TTL != "-1" {
 			duration, _ = time.ParseDuration(parsed.Args.TTL + "s")
 		}
 		cache.Memory.ExpireTTL(parsed.Args.Key, duration)
-		fmt.Println("DONE")
+		return "DONE", nil
 	} else if parsed.CommandType == "KEYS" {
 		// Implement a better way
 		cache.Memory.Keys().Display()
 	}
+
+	return "", fmt.Errorf("syntax error: invalid query `%s`", query)
 }
