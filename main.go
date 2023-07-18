@@ -21,6 +21,7 @@ func main() {
 	cache.Run(`EXPIRE name -1`)
 	cache.Run(`KEYS`)
 	cache.Run(`TTL name`)
+	cache.Run(`CLEAR`)
 	val, _ := cache.Run("KEYS")
 	fmt.Println(val)
 }

@@ -225,5 +225,6 @@ func (cache *LRUCache) GetTTL(key string) (time.Duration, bool) {
 
 // Method to clear the whole cache
 func (cache *LRUCache) Clear() {
-
+	cache.data = map[string]*dll.Node{}
+	cache.keys = dll.CreateDoublyLinkedListEmpty()
 }
