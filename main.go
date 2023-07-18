@@ -8,20 +8,20 @@ import (
 
 func main() {
 
+	// Capacity of the cache
+	const CACHE_CAPACITY = 10
+
+	// Always call this function to create a new cache
 	cache := inca.CreateInca(&inca.IncaConfig{
-		Capacity:       3,
+		Capacity:       CACHE_CAPACITY,
 		EvictionPolicy: inca.TYPE_LRU,
 	})
 
-	cache.Run(`GET name`)
-	cache.Run(`SET name "Rajab"`)
-	cache.Run(`SET name2 "Jisa"`)
-	cache.Run(`GET name`)
-	cache.Run(`EXPIRE name 10`)
-	cache.Run(`EXPIRE name -1`)
-	cache.Run(`KEYS`)
-	cache.Run(`TTL name`)
-	// cache.Run(`CLEAR`)
-	val, _ := cache.Run("KEYS")
-	fmt.Println(val)
+	// Your code goes here.....
+	cache.Run(`SET name "Markus"`)
+	if name, err := cache.Run(`GET namej`); err != nil {
+		panic(err)
+	} else {
+		fmt.Printf("The name is %s\n", name)
+	}
 }
